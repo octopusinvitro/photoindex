@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Fotos list</title>
+  <meta name="description" content="List of fotos in folders">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.ico" sizes="any">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
+
+  <style>
+    html {
+      line-height: 1.15;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: #12191f;
+      background: #12191f;
+    }
+
+    h1 {
+      text-align: center;
+      color: #f4ab4f;
+    }
+
+    h1, h2 {
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+    }
+
+    article {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      grid-auto-rows: repeat(10px);
+      gap: 10px;
+      padding: 10px;
+    }
+
+    section {
+      margin: auto;
+      min-width: 360px;
+      padding: 0 1em;
+      background: #f4ab4f;
+      border-radius: 1em;
+    }
+
+    pre {
+      max-width: 360px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Fotos list</h1>
+
+  <article>
+<% `ls -d1 ../disk*`.split("\n").each do |foldername| %>
+    <section>
+      <h2><%= foldername[3..] %></h2>
+
+      <pre><% `ls --group-directories-first -v '#{foldername}'`.split("\n").each do |filename| %><%= "#{filename}\n" %><% end %></pre>
+    </section>
+<% end %>
+  </article>
+
+  <script>
+    (function() {
+      document.querySelectorAll('section').forEach((section) => {
+        const spans = Math.ceil(section.clientHeight / 10);
+        section.style.gridRowEnd = `span ${spans}`;
+      });
+    })()
+  </script>
+</body>
+</html>
